@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 type Props = {
   onPress: () => void
@@ -8,9 +9,7 @@ type Props = {
 const AddButton = (props: Props) => {
   return (
     <View>
-      <TouchableOpacity onPress={props.onPress}>
-        <Text>Add</Text>
-      </TouchableOpacity>
+      <Icon.Button name='plus' backgroundColor='white' color='black' />
     </View>
   )
 }

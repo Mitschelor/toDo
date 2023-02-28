@@ -1,53 +1,37 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { Alert, ScrollView, Text, View } from 'react-native'
+import { observer } from 'mobx-react'
+import React, { useLayoutEffect } from 'react'
+import { ScrollView, View } from 'react-native'
 import AddButton from '../../components/AddButton'
-import StyledText from '../../components/StyledText'
-import Title from '../../components/Title'
-import TodoItem, { TodoProps } from '../../components/TodoItem'
-import TodoStore from '../../store/TodoStore'
+import ToDoItem from '../../components/ToDoItem'
+import { todoStore } from '../../store/TodoStore'
 
-const getAddButton = (onPress: () => void) => <AddButton onPress={onPress} />
-
-export type TodoData = Omit<TodoProps, 'deleteAction'>
-
-function TodoScreen() {
+const TodoScreen = () => {
   const navigation = useNavigation()
-  const todoStore = new TodoStore()
-  const [todos, setTodos] = useState<TodoData[]>([])
 
-  const deleteAction = (index: number) => {
-    todos.splice(index, 1)
-    setTodos([...todos])
-  }
+  const addTodo = () =>
+    todoStore.addToDo({
+      id: Math.random().toString(),
+      title: '',
+      state: 'icebox',
+    })
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: 'My Day',
-      headerRight: () =>
-        getAddButton(() => {
-          todos.push({
-            title: '',
-            description: '',
-            dueDate: new Date().getTime(),
-            isCreating: true,
-          })
-          setTodos([...todos])
-        }),
+      headerRight: () => <AddButton onPress={addTodo} />,
     })
-  })
+  }, [navigation])
 
   return (
     <View>
       <ScrollView style={{ height: '100%' }}>
-        {todos.map((todo, index) => (
-          <TodoItem
-            key={index}
-            title={todo.title}
-            description={todo.description}
-            dueDate={todo.dueDate}
-            isCreating={todo.isCreating}
-            deleteAction={(e) => deleteAction(e)}
+        {todoStore.toDos.map((todo) => (
+          <ToDoItem
+            key={todo.id}
+            toDo={todo}
+            deleteAction={() => todoStore.removeToDo(todo)}
+            toggleAction={() => todoStore.toggleToDo(todo)}
           />
         ))}
       </ScrollView>
@@ -55,4 +39,4 @@ function TodoScreen() {
   )
 }
 
-export default TodoScreen
+export default observer(TodoScreen)

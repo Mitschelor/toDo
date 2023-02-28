@@ -5,13 +5,15 @@ import AddButton from '../../components/AddButton'
 import StyledText from '../../components/StyledText'
 import Title from '../../components/Title'
 import TodoItem, { TodoProps } from '../../components/TodoItem'
+import TodoStore from '../../store/TodoStore'
 
 const getAddButton = (onPress: () => void) => <AddButton onPress={onPress} />
 
-type TodoData = Omit<TodoProps, 'deleteAction'>
+export type TodoData = Omit<TodoProps, 'deleteAction'>
 
 function TodoScreen() {
   const navigation = useNavigation()
+  const todoStore = new TodoStore()
   const [todos, setTodos] = useState<TodoData[]>([])
 
   const deleteAction = (index: number) => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, StyleSheet, TextInput } from 'react-native'
+import { Button, Platform, StyleSheet, TextInput } from 'react-native'
 import ToDo from '../model/ToDo'
 
 interface ToDoEditorProps {
@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     flexGrow: 1,
     fontSize: 20,
+    ...(Platform.OS === 'android' && {
+      height: 50,
+    }),
   },
 })
 

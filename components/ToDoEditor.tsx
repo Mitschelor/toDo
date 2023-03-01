@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     fontSize: 20,
     ...(Platform.OS === 'android' && {
-      height: 50,
+      paddingVertical: 0,
     }),
   },
 })

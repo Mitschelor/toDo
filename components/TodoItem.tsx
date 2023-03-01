@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import ToDo from '../model/ToDo'
 import { todoStore } from '../store/TodoStore'
 import ToDoDepiction from './ToDoDepiction'
@@ -55,6 +55,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingVertical: 10,
     alignItems: 'center',
+    ...(Platform.OS === 'android' && {
+      paddingVertical: 0,
+    })
   },
 })
 
